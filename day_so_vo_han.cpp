@@ -4,12 +4,12 @@ using namespace std;
 
 int main()
 {
+
 	int t;
 	cin>>t;
 	while(t--)
 	{
-		int n, k;
-        cin >> n >> k;
+		int n; cin >> n;
 		cout << endl;
 	}	
     return 0;
