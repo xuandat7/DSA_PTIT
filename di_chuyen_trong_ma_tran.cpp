@@ -1,35 +1,55 @@
 #include<bits/stdc++.h>
 using namespace std;
-#define ll long long
-int C[1005][1005];
-int mod = 1e9 + 7;
-ll tohop(int n, int k){
-    for(int i=0; i<=n; i++){
-        for(int j=0; j<=i; j++){
-            if(j==0 || j==i){
-                C[i][j] = 1;
-            }
-            else C[i][j] = (C[i-1][j] + C[i-1][j-1]) % mod;
+int n, m;
+int a[1005][1005];
+int mark[1005][1005];
+int dichuyen(){
+    queue<pair<int,int>> q;
+    q.push({1,1});
+    while (true)
+    {
+        if(q.empty())   return -1;
+        auto x = q.front(); 
+        
+        if(x.first == n && x.second == m){
+            break;
         }
-    }   
-    return C[n][k];
+        q.pop();
+        int tmp = a[x.first][x.second];
+        
+        if(x.first+tmp <= n && x.second <= m && !mark[x.first + tmp][x.second]){
+            q.push({x.first+tmp, x.second});
+            mark[x.first+tmp][x.second] =  mark[x.first][x.second] + 1;
+        }
+        if(x.first <= n && x.second+tmp <= m && !mark[x.first][x.second+tmp]){
+            q.push({x.first, x.second+tmp});
+            mark[x.first][x.second+tmp] = mark[x.first][x.second] + 1;
+        }
+        
+    }
+    return mark[n][m];
+    
 }
 int main(){
-    
     int t; cin >> t;
     while (t--)
     {
-        int n, m; cin >> m >> n;
-        int a[n+5][m+5];
-        for(int i=0; i<m; i++){
-
-            for(int j=0; j<n; j++){
+        // memset(mark, 0, sizeof(mark));
+        cin >> n >> m;
+        for(int i=1; i<=n; i++){
+            for(int j=1; j<=m; j++){
                 cin >> a[i][j];
+                mark[i][j] = 0;
             }
         }
-        cout << tohop(n+m-2, n-1) << endl;
-        
-        
+        cout << dichuyen() << endl;
+        cout << endl;
+    //     for(int i=1; i<=n; i++){
+    //         for(int j=1; j<=n; j++){
+    //             cout << mark[i][j] << " ";
+    //         }
+    //         cout << endl;
+    //     }
     }
-    
+    return 0;
 }
